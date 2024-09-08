@@ -12,6 +12,6 @@ public class ListeningApplicationReadyService {
 
     @EventListener(ApplicationReadyEvent.class)
     public void onApplicationReady(ApplicationReadyEvent event) {
-       log.info("application ready");
+       log.info("service get event [{}] on [{}]", event.getClass().getSimpleName(), getClass().getName());
     }
 }
