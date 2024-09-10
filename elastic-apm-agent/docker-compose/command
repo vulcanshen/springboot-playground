@@ -1,0 +1,36 @@
+docker-compose -f create-certs.yml run --rm create_certs
+
+docker-compose -f elastic-docker-tls.yml up -d
+
+docker exec es01 /bin/bash -c "bin/elasticsearch-setup-passwords auto --batch --url https://es01:9200"
+
+
+kibana.yml
+xpack.fleet.packages:
+  - name: apm
+    version: 7.17.23
+
+
+Changed password for user apm_system
+PASSWORD apm_system = 7xNaSSmPk56GiPo5Yijz
+
+Changed password for user kibana_system
+PASSWORD kibana_system = sF5kerhUw4G05CpHO0MO
+
+Changed password for user kibana
+PASSWORD kibana = sF5kerhUw4G05CpHO0MO
+
+Changed password for user logstash_system
+PASSWORD logstash_system = DUR9cAItvmd6W0TzMcsm
+
+Changed password for user beats_system
+PASSWORD beats_system = TjqYPyYHZ5RlFGwMaa58
+
+Changed password for user remote_monitoring_user
+PASSWORD remote_monitoring_user = XH4WtFpeEfF6p0jGQxV3
+
+Changed password for user elastic
+PASSWORD elastic = kP1yWrnKrLaQxvo5TR6M
+
+
+docker run --env FLEET_SERVER_ENABLE=true  --env FLEET_SERVER_ELASTICSEARCH_HOST=http://localhost:9200  --env FLEET_SERVER_SERVICE_TOKEN=AAEAAWVsYXN0aWMvZmxlZXQtc2VydmVyL3Rva2VuLTE3MjU0MTQyMjE4OTA6UkZBMHdHWHZRV0tYR0RqRTVRN0xXUQ  --env FLEET_SERVER_POLICY_ID=499b5aa7-d214-5b5d-838b-3cd76469844e  -p 8220:8220  --rm docker.elastic.co/beats/elastic-agent:8.15.0 

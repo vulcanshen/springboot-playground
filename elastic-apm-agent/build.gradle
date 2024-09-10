@@ -1,0 +1,47 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.3'
+	id 'io.spring.dependency-management' version '1.1.6'
+}
+
+group = 'vulcan.springboot'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+bootRun {
+	jvmArgs(
+			"-javaagent:${rootProject.rootDir}/extlibs/elastic-apm-agent-1.51.0.jar",
+			"-Delastic.apm.service_name=${project.name}",
+			"-Delastic.apm.server_urls=http://localhost:8200",
+			"-Delastic.apm.secret_token=",
+			"-Delastic.apm.environment=dev",
+			"-Delastic.apm.log_sending=true",
+			"-Delastic.apm.application_packages=vulcan.springboot.elastic_apm_agent.*",
+			"-Delastic.apm.log_ecs_reformatting=OVERRIDE",
+			"-Delastic.apm.enable_log_correlation=true",
+			"-Delastic.apm.log_level=trace",
+	)
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'com.h2database:h2'
+	annotationProcessor 'org.projectlombok:lombok'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
