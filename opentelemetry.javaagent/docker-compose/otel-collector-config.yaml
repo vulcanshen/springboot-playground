@@ -10,13 +10,16 @@ exporters:
   loki:
     endpoint: http://loki:3100/loki/api/v1/push
 #  otlp:
+#    endpoint: tempo:14317
+#    tls:
+#      insecure: true
+#  otlp:
 #    endpoint: localhost:4317
 
 service:
   pipelines:
 #    traces:
 #      receivers: [otlp]
-#      processors: [batch]
 #      exporters: [otlp]
 #    metrics:
 #      receivers: [otlp]
