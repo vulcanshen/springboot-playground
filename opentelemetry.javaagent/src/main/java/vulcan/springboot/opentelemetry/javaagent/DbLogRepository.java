@@ -2,5 +2,5 @@ package vulcan.springboot.opentelemetry.javaagent;
 
 import org.springframework.data.repository.CrudRepository;
 
-public interface UserRepository extends CrudRepository<UserEntity, Long> {
+public interface DbLogRepository extends CrudRepository<LogEntity, Long> {
 }

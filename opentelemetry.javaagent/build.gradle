@@ -16,12 +16,14 @@ java {
 bootRun {
 	jvmArgs(
 			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}opentelemetry-javaagent.jar",
-			"-Dotel.service.name=${project.name}",
-			"-Dotel.traces.exporter=logging",
+			"-Dotel.service.name=${project.name}-service",
+			"-Dotel.traces.exporter=otlp",
 			"-Dotel.metrics.exporter=logging",
 			"-Dotel.logs.exporter=otlp",
 			"-Dotel.exporter.otlp.logs.endpoint=http://localhost:4317",
-			"-Dotel.exporter.otlp.logs.protocol=grpc"
+			"-Dotel.exporter.otlp.logs.protocol=grpc",
+			"-Dotel.exporter.otlp.traces.endpoint=http://localhost:4317",
+			"-Dotel.exporter.otlp.traces.protocol=grpc"
 	)
 }
 
@@ -43,6 +45,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
 }
 
 tasks.named('test') {

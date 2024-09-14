@@ -5,17 +5,19 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
-public class UserService {
+public class DbLogService {
 
-    @Setter(onMethod_ = {@Autowired})
-    private UserRepository repository;
+    @Setter(onMethod_ = @Autowired)
+    private DbLogRepository repository;
 
-    public UserEntity addUser(String name) {
-        var newUser = UserEntity.builder()
-                .name(name)
+    public LogEntity appendLog() {
+        var newLog = LogEntity.builder()
+                .uuid(UUID.randomUUID().toString())
                 .build();
-        repository.save(newUser);
-        return newUser;
+        repository.save(newLog);
+        return newLog;
     }
 }
