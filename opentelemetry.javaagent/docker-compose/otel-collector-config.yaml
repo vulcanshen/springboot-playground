@@ -9,6 +9,10 @@ exporters:
     verbosity: detailed
   loki:
     endpoint: http://loki:3100/loki/api/v1/push
+  otlp/tempo:
+    endpoint: "http://tempo:4317"
+    tls:
+      insecure: true
 #  otlp:
 #    endpoint: tempo:14317
 #    tls:
@@ -18,9 +22,9 @@ exporters:
 
 service:
   pipelines:
-#    traces:
-#      receivers: [otlp]
-#      exporters: [otlp]
+    traces:
+      receivers: [otlp]
+      exporters: [otlp/tempo]
 #    metrics:
 #      receivers: [otlp]
 #      processors: [batch]
