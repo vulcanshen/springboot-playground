@@ -20,15 +20,41 @@ datasources:
     url: http://tempo:3200
     orgId: 1
     basicAuth: false
-    isDefault: false
+    isDefault: true
     version: 1
     editable: true
     jsonData:
       tracesToLogsV2:
         datasourceUid: loki
         spanStartTimeShift: '-4h'
-        spanEndTimeShift: '+4h'
+        spanEndTimeShift: '4h'
         filterByTraceID: false
         filterBySpanID: false
         customQuery: true
         query: '{exporter="OTLP"} |= "$${__span.traceId}" |= "$${__span.spanId}"'
+      tracesToMetrics:
+        datasourceUid: prometheus
+        spanStartTimeShift: '1h'
+        spanEndTimeShift: '-1h'
+        queries:
+          - name: 'Testing'
+            query: 'histogram_quantile(0.95, sum(rate(http_server_duration_milliseconds_bucket{exported_job="opentelemetry.javaagent"}[5m])) by (le))'
+#        tags: [ { key: 'service.name', value: 'server' } ]
+#        queries:
+#          - name: 'Request Rate'
+#            query: 'sum by (client,server)(rate(traces_service_graph_request_total($__tags)[$__rate_interval]))'
+#          - name: 'Error Rate'
+#            query: 'sum by (client,server)(rate(traces_service_graph_request_failed_total($__tags)[$__rate_interval]))'
+
+  - name: prometheus
+    type: prometheus
+    uid: prometheus
+    access: proxy
+    url: http://prometheus:9090
+    orgId: 1
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false
+    jsonData:
+      httpMethod: GET

@@ -16,14 +16,18 @@ java {
 bootRun {
 	jvmArgs(
 			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}opentelemetry-javaagent.jar",
-			"-Dotel.service.name=${project.name}-service",
+			"-Dotel.service.name=${project.name}",
+//			"-Dotel.exporter.otlp.endpoint=http://localhost:4317",
+//			"-Dotel.exporter.otlp.protocol=grpc"
 			"-Dotel.traces.exporter=otlp",
-			"-Dotel.metrics.exporter=logging",
+			"-Dotel.metrics.exporter=otlp,logging",
 			"-Dotel.logs.exporter=otlp",
 			"-Dotel.exporter.otlp.logs.endpoint=http://localhost:4317",
 			"-Dotel.exporter.otlp.logs.protocol=grpc",
 			"-Dotel.exporter.otlp.traces.endpoint=http://localhost:4317",
-			"-Dotel.exporter.otlp.traces.protocol=grpc"
+			"-Dotel.exporter.otlp.traces.protocol=grpc",
+			"-Dotel.exporter.otlp.metrics.endpoint=http://localhost:4317",
+			"-Dotel.exporter.otlp.metrics.protocol=grpc"
 	)
 }
 

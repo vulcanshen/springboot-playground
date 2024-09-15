@@ -11,6 +11,7 @@ services:
       - observable-universe
     depends_on:
       - collector
+
   tempo:
     container_name: tempo
     image: grafana/tempo
@@ -25,6 +26,24 @@ services:
       - observable-universe
     depends_on:
       - collector
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    command:
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --enable-feature=exemplar-storage
+      - --web.enable-remote-write-receiver
+    restart: always
+    ports:
+      - "9090:9090"
+    networks:
+      - observable-universe
+    depends_on:
+      - collector
+
   collector:
     container_name: collector
     image: otel/opentelemetry-collector-contrib
@@ -33,8 +52,10 @@ services:
     ports:
       - 4317:4317 # OTLP gRPC receiver
       - 4318:4318 # OTLP http receiver
+      - 8889:8889 # Prometheus exporter metrics
     networks:
       - observable-universe
+
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -48,6 +69,7 @@ services:
     depends_on:
       - loki
       - tempo
+      - prometheus
       - collector
 
 

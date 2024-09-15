@@ -4,7 +4,14 @@ receivers:
       grpc:
         endpoint: 0.0.0.0:4317
 
+processors:
+  batch:
+
+
 exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+    enable_open_metrics: true
   debug:
     verbosity: detailed
   loki:
@@ -13,22 +20,16 @@ exporters:
     endpoint: "http://tempo:4317"
     tls:
       insecure: true
-#  otlp:
-#    endpoint: tempo:14317
-#    tls:
-#      insecure: true
-#  otlp:
-#    endpoint: localhost:4317
 
 service:
   pipelines:
     traces:
       receivers: [otlp]
       exporters: [otlp/tempo]
-#    metrics:
-#      receivers: [otlp]
-#      processors: [batch]
-#      exporters: [otlp]
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [prometheus]
     logs:
       receivers: [otlp]
       exporters: [loki]
