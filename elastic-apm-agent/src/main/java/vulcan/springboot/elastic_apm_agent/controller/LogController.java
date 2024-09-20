@@ -16,12 +16,10 @@ import java.util.Map;
 public class LogController {
 
 
-    @PostMapping(consumes = "application/json")
+    @PostMapping()
     public ResponseEntity<?> log(@RequestBody  Map<?,?> body) {
         var logger = LoggerFactory.getLogger(LogController.class);
-        logger.info("123");
-        logger.warn("456");
-        logger.error("789");
+        logger.error("@@@@@LOG@@@@@@@");
 
         return ResponseEntity.ok(body);
     }

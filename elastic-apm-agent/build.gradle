@@ -22,9 +22,9 @@ bootRun {
 			"-Delastic.apm.environment=dev",
 			"-Delastic.apm.log_sending=true",
 			"-Delastic.apm.application_packages=vulcan.springboot.elastic_apm_agent.*",
-			"-Delastic.apm.log_ecs_reformatting=OVERRIDE",
+			"-Delastic.apm.log_ecs_reformatting=override",
 			"-Delastic.apm.enable_log_correlation=true",
-			"-Delastic.apm.log_level=trace",
+			"-Delastic.apm.log_level=trace"
 	)
 }
 
