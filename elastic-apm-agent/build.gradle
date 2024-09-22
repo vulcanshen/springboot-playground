@@ -19,7 +19,7 @@ bootRun {
 			"-Delastic.apm.service_name=${project.name}",
 			"-Delastic.apm.server_urls=http://localhost:8200",
 			"-Delastic.apm.secret_token=",
-			"-Delastic.apm.environment=dev",
+			"-Delastic.apm.environment=test",
 			"-Delastic.apm.log_sending=true",
 			"-Delastic.apm.application_packages=vulcan.springboot.elastic_apm_agent.*",
 			"-Delastic.apm.log_ecs_reformatting=override",
@@ -34,6 +34,8 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+//	implementation 'org.springframework.boot:spring-boot-starter-aop'
+
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'

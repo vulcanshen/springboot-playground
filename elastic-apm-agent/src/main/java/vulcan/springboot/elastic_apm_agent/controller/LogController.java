@@ -19,6 +19,7 @@ public class LogController {
     @PostMapping
     public ResponseEntity<?> create() {
         var logger = LoggerFactory.getLogger(LogController.class);
+        System.out.println(logger.getClass().getName());
         logger.error("@@@@@LOG@@@@@@@");
 
         return ResponseEntity.ok().build();
