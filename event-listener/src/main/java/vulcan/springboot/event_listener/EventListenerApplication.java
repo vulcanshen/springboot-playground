@@ -11,6 +11,8 @@ import org.springframework.context.event.EventListener;
 @SpringBootApplication
 public class EventListenerApplication {
 
+	private static int counter = 0;
+
 	public static void main(String[] args) {
 		SpringApplication.run(EventListenerApplication.class, args);
 	}
@@ -18,6 +20,6 @@ public class EventListenerApplication {
 
 	@EventListener(SpringApplicationEvent.class)
 	public void onApplicationEvent(ApplicationEvent event) {
-        log.warn("on application event:{}", event.getClass().getSimpleName());
+        log.info("({}) trigger event on [@SpringBootApplication]:{}", (++counter), event.getClass().getSimpleName());
 	}
 }
