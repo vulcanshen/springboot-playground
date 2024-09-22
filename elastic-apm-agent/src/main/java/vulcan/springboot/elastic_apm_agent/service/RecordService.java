@@ -4,26 +4,26 @@ package vulcan.springboot.elastic_apm_agent.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import vulcan.springboot.elastic_apm_agent.entity.User;
-import vulcan.springboot.elastic_apm_agent.repository.UserRepository;
+import vulcan.springboot.elastic_apm_agent.entity.Record;
+import vulcan.springboot.elastic_apm_agent.repository.RecordRepository;
 
 import java.util.Optional;
 
 @Service
-public class UserService {
+public class RecordService {
 
     @Autowired
-    UserRepository userRepository;
+    RecordRepository userRepository;
 
-    public User save(User user) {
+    public Record save(Record user) {
         return userRepository.save(user);
     }
 
-    public Optional<User> findById(Long id) {
+    public Optional<Record> findById(Long id) {
         return userRepository.findById(id);
     }
 
-    public Iterable<User> findAll() {
+    public Iterable<Record> findAll() {
         return userRepository.findAll();
     }
 
@@ -31,7 +31,7 @@ public class UserService {
         userRepository.deleteById(id);
     }
 
-    public User update(User user) {
-        return userRepository.save(user);
+    public Record update(Record record) {
+        return userRepository.save(record);
     }
 }

@@ -12,15 +12,15 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping("/log")
+@RequestMapping("/logs")
 public class LogController {
 
 
-    @PostMapping()
-    public ResponseEntity<?> log(@RequestBody  Map<?,?> body) {
+    @PostMapping
+    public ResponseEntity<?> create() {
         var logger = LoggerFactory.getLogger(LogController.class);
         logger.error("@@@@@LOG@@@@@@@");
 
-        return ResponseEntity.ok(body);
+        return ResponseEntity.ok().build();
     }
 }

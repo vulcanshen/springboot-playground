@@ -10,6 +10,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 
 @Builder
 @Entity
@@ -17,12 +19,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Record {
 
     @Id
     @GeneratedValue
     private Long id;
 
-    private String name;
+    @Builder.Default
+    private LocalDateTime createTime = LocalDateTime.now();
 
 }
