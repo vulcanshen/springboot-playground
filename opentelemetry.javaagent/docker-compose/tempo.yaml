@@ -38,14 +38,14 @@ metrics_generator:
   registry:
     external_labels:
       source: tempo
-      cluster: docker-compose
+      cluster: observable-universe
   storage:
     path: /var/tempo/generator/wal
     remote_write:
-      - url: http://prometheus:9090/api/v1/write
+      - url: http://prometheus:9090/prometheus/api/v1/write
         send_exemplars: true
-  traces_storage:
-    path: /var/tempo/generator/traces
+#  traces_storage:
+#    path: /var/tempo/generator/traces
 
 
 storage:

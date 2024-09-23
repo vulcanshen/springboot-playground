@@ -20,7 +20,7 @@ bootRun {
 //			"-Dotel.exporter.otlp.endpoint=http://localhost:4317",
 //			"-Dotel.exporter.otlp.protocol=grpc"
 			"-Dotel.traces.exporter=otlp",
-			"-Dotel.metrics.exporter=otlp,logging",
+			"-Dotel.metrics.exporter=otlp",
 			"-Dotel.logs.exporter=otlp",
 			"-Dotel.exporter.otlp.logs.endpoint=http://localhost:4317",
 			"-Dotel.exporter.otlp.logs.protocol=grpc",
