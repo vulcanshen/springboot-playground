@@ -4,15 +4,11 @@ package vulcan.springboot.opentelemetry.javaagent;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Random;
 
 
 @Slf4j
@@ -24,9 +20,22 @@ public class Controller {
     DbLogService dbLogService;
 
     @PostMapping(value = "/logs", consumes = "application/json")
-    public ResponseEntity<?> createLog(@RequestBody HashMap<String, Object> body) {
-        log.warn("application log on api [{}]", body.toString());
-        return ResponseEntity.ok(body);
+    public ResponseEntity<?> createLog() {
+        var string = randomString(20);
+        log.warn("application log on api [{}]", string);
+        return ResponseEntity.ok(string);
+    }
+
+    public String randomString(int count) {
+        int leftLimit = 48; // numeral '0'
+        int rightLimit = 122; // letter 'z'
+        Random random = new Random();
+
+        return random.ints(leftLimit, rightLimit + 1)
+                .filter(i -> (i <= 57 || i >= 65) && (i <= 90 || i >= 97))
+                .limit(count)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
     }
 
     @GetMapping(value = "/error")

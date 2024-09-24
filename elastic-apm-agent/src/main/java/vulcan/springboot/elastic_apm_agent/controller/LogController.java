@@ -1,6 +1,7 @@
 package vulcan.springboot.elastic_apm_agent.controller;
 
 
+import org.apache.logging.log4j.LogManager;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
