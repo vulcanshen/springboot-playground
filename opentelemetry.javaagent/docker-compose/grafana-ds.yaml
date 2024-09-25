@@ -33,7 +33,7 @@ datasources:
         customQuery: true
         query: '{exporter="OTLP"} |= `"traceid":"$${__span.traceId}"` |= `"spanid":"$${__span.spanId}"`'
       tracesToMetrics:
-        datasourceUid: 'prometheus'
+        datasourceUid: 'mimir'
         spanStartTimeShift: '-10m'
         spanEndTimeShift: '10m'
         queries:
@@ -45,6 +45,22 @@ datasources:
     uid: prometheus
     access: proxy
     url: http://prometheus:9090
+    orgId: 1
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: false
+    jsonData:
+      httpMethod: POST
+      exemplarTraceIdDestinations:
+        - name: trace_id
+          datasourceUid: tempo
+
+  - name: mimir
+    type: prometheus
+    uid: mimir
+    access: proxy
+    url: http://mimir:9009/prometheus
     orgId: 1
     basicAuth: false
     isDefault: false

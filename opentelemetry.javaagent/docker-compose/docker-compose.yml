@@ -44,6 +44,20 @@ services:
     depends_on:
       - collector
 
+  mimir:
+    container_name: mimir
+    image: grafana/mimir
+    volumes:
+      - ./mimir-config.yml:/etc/mimir/mimir-config.yml
+    command:
+      - --config.file=/etc/mimir/mimir-config.yml
+    ports:
+      - "9009:9009"
+    networks:
+      - observable-universe
+    depends_on:
+      - collector
+
   collector:
     container_name: collector
     image: otel/opentelemetry-collector-contrib

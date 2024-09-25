@@ -9,6 +9,8 @@ processors:
 
 
 exporters:
+  prometheusremotewrite:
+    endpoint: http://mimir:9009/api/v1/push
   prometheus:
     endpoint: "0.0.0.0:8889"
     enable_open_metrics: true
@@ -29,7 +31,7 @@ service:
     metrics:
       receivers: [otlp]
       processors: [batch]
-      exporters: [prometheus]
+      exporters: [prometheus,prometheusremotewrite]
     logs:
       receivers: [otlp]
       exporters: [loki]
