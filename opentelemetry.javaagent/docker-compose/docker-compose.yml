@@ -5,7 +5,7 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - ./loki-config.yaml:/etc/loki/local-config.yaml
+      - ./loki.yaml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - observable-universe
@@ -48,9 +48,9 @@ services:
     container_name: mimir
     image: grafana/mimir
     volumes:
-      - ./mimir-config.yml:/etc/mimir/mimir-config.yml
+      - ./mimir.yml:/etc/mimir/mimir.yml
     command:
-      - --config.file=/etc/mimir/mimir-config.yml
+      - --config.file=/etc/mimir/mimir.yml
     ports:
       - "9009:9009"
     networks:
