@@ -1,0 +1,67 @@
+# Configuration file version
+apiVersion: 1
+
+datasources:
+  - name: loki
+    type: loki
+    uid: loki
+    access: proxy
+    url: http://loki:3100
+    orgId: 1
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true
+    jsonData:
+      maxLines: 1000
+      derivedFields:
+        # Field with internal link pointing to data source in Grafana.
+        # Right now, Grafana supports only Jaeger and Zipkin data sources as link targets.
+        - datasourceUid: tempo # not a uid, bug
+          matcherRegex: '"traceid":"(\w+)"'
+          name: traceid
+          # url will be interpreted as query for the datasource
+          url: "$${__value.raw}"
+
+  - name: tempo
+    type: tempo
+    uid: tempo
+    access: proxy
+    url: http://tempo:3200
+    orgId: 1
+    basicAuth: false
+    isDefault: true
+    version: 1
+    editable: true
+    jsonData:
+      tracesToLogsV2:
+        datasourceUid: loki
+        spanStartTimeShift: '-4h'
+        spanEndTimeShift: '4h'
+        filterByTraceID: false
+        filterBySpanID: false
+        customQuery: true
+        query: '{exporter="OTLP"} |= `"traceid":"$${__span.traceId}"` |= `"spanid":"$${__span.spanId}"`'
+      tracesToMetrics:
+        datasourceUid: 'mimir'
+        spanStartTimeShift: '-10m'
+        spanEndTimeShift: '10m'
+        queries:
+          - name: 'Duration'
+            query: 'http_server_duration_milliseconds_bucket{}'
+
+  - name: mimir
+    type: prometheus
+    uid: mimir
+    access: proxy
+    url: http://mimir:9009/prometheus
+    orgId: 1
+    basicAuth: false
+    isDefault: false
+    version: 1
+    editable: true
+    jsonData:
+      httpMethod: POST
+      exemplarTraceIdDestinations:
+        - name: traceid
+          datasourceUid: tempo

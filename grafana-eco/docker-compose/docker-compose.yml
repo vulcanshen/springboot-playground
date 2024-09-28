@@ -1,0 +1,75 @@
+services:
+  alloy:
+    image: grafana/alloy
+    volumes:
+      - ./config.alloy:/etc/alloy/config.alloy
+    ports:
+      - "12345:12345"
+      - "5317:4317"
+    command:
+      - run
+      - "--server.http.listen-addr=0.0.0.0:12345"
+      - "--storage.path=/var/lib/alloy/data"
+      - "/etc/alloy/config.alloy"
+    networks:
+      - grafana-eco
+
+  loki:
+    container_name: loki
+    image: grafana/loki
+    ports:
+      - "3100"
+    volumes:
+      - ./loki.yml:/etc/loki/local-config.yaml
+    command: -config.file=/etc/loki/local-config.yaml
+    depends_on:
+      - alloy
+    networks:
+      - grafana-eco
+
+  mimir:
+    container_name: mimir
+    image: grafana/mimir
+    volumes:
+      - ./mimir.yml:/etc/mimir/mimir.yml
+    command:
+      - --config.file=/etc/mimir/mimir.yml
+    ports:
+      - "9009:9009"
+    networks:
+      - grafana-eco
+    depends_on:
+      - alloy
+
+  tempo:
+    container_name: tempo
+    image: grafana/tempo
+    command: [ "-config.file=/etc/tempo.yml" ]
+    volumes:
+      - ./tempo.yml:/etc/tempo.yml
+    ports:
+      - "3200"
+      - "4317:4317"
+    networks:
+      - grafana-eco
+    depends_on:
+      - alloy
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./grafana-ds.yml:/etc/grafana/provisioning/datasources/grafana-ds.yml
+    networks:
+      - grafana-eco
+    depends_on:
+      - loki
+      - tempo
+      - mimir
+      - alloy
+
+networks:
+  grafana-eco:

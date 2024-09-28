@@ -1,0 +1,50 @@
+otelcol.receiver.otlp "main" {
+  grpc {
+    endpoint = "0.0.0.0:4317"
+  }
+
+  output {
+    metrics = [otelcol.processor.batch.main.input]
+    logs    = [otelcol.processor.batch.main.input]
+    traces  = [otelcol.processor.batch.main.input]
+  }
+}
+
+otelcol.processor.batch "main" {
+  output {
+    metrics = [otelcol.exporter.prometheus.mimir.input]
+    logs    = [otelcol.exporter.loki.loki_exporter.input]
+    traces  = [otelcol.exporter.otlp.tempo.input]
+  }
+}
+
+otelcol.exporter.loki "loki_exporter" {
+	forward_to = [loki.write.loki_endpoint.receiver]
+}
+
+loki.write "loki_endpoint" {
+	endpoint {
+		url = "http://loki:3100/loki/api/v1/push"
+    }
+}
+
+otelcol.exporter.otlp "tempo" {
+  client {
+    endpoint = "tempo:4317"
+    tls {
+        insecure = true
+    }
+  }
+}
+
+
+otelcol.exporter.prometheus "mimir" {
+	forward_to = [prometheus.remote_write.mimir.receiver]
+}
+
+prometheus.remote_write "mimir" {
+	endpoint {
+		url = "http://mimir:9009/api/v1/push"
+		send_exemplars = true
+	}
+}
