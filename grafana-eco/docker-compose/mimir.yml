@@ -63,4 +63,5 @@ limits:
   ingestion_rate: 250000
   max_global_exemplars_per_user: 100000
   max_label_value_length: 1000000000000000000
+  out_of_order_time_window: 1h
 
