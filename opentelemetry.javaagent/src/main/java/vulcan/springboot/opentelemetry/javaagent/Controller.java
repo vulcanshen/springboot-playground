@@ -19,7 +19,7 @@ public class Controller {
     @Setter(onMethod_ = @Autowired)
     DbLogService dbLogService;
 
-    @PostMapping(value = "/logs", consumes = "application/json")
+    @PostMapping(value = "/logs")
     public ResponseEntity<?> createLog() {
         var string = randomString(20);
         log.warn("application log on api [{}]", string);

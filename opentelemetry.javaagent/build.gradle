@@ -14,8 +14,13 @@ java {
 }
 
 bootRun {
+
+	environment "PYROSCOPE_APPLICATION_NAME", "${project.name}"
+	environment "PYROSCOPE_SERVER_ADDRESS", "http://localhost:4040"
+
 	jvmArgs(
-			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}opentelemetry-javaagent.jar",
+			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}opentelemetry-javaagent-2.8.jar",
+			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}pyroscope.jar",
 			"-Dotel.service.name=${project.name}",
 //			"-Dotel.exporter.otlp.endpoint=http://localhost:4317",
 //			"-Dotel.exporter.otlp.protocol=grpc"

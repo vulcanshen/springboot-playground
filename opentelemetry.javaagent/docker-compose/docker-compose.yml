@@ -5,7 +5,7 @@ services:
     ports:
       - 3100:3100
     volumes:
-      - ./loki.yaml:/etc/loki/local-config.yaml
+      - ./loki.yml:/etc/loki/local-config.yaml
     command: -config.file=/etc/loki/local-config.yaml
     networks:
       - observable-universe
@@ -15,9 +15,9 @@ services:
   tempo:
     container_name: tempo
     image: grafana/tempo
-    command: [ "-config.file=/etc/tempo.yaml" ]
+    command: [ "-config.file=/etc/tempo.yml" ]
     volumes:
-      - ./tempo.yaml:/etc/tempo.yaml
+      - ./tempo.yml:/etc/tempo.yml
     ports:
       - "3200"   # tempo
       - "4317"  # otlp grpc
@@ -27,22 +27,22 @@ services:
     depends_on:
       - collector
 
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    command:
-      - --config.file=/etc/prometheus/prometheus.yml
-      - --enable-feature=exemplar-storage
-      - --web.enable-remote-write-receiver
-    restart: always
-    ports:
-      - "9090:9090"
-    networks:
-      - observable-universe
-    depends_on:
-      - collector
+#  prometheus:
+#    container_name: prometheus
+#    image: prom/prometheus
+#    volumes:
+#      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+#    command:
+#      - --config.file=/etc/prometheus/prometheus.yml
+#      - --enable-feature=exemplar-storage
+#      - --web.enable-remote-write-receiver
+#    restart: always
+#    ports:
+#      - "9090:9090"
+#    networks:
+#      - observable-universe
+#    depends_on:
+#      - collector
 
   mimir:
     container_name: mimir
@@ -70,20 +70,28 @@ services:
     networks:
       - observable-universe
 
+  pyroscope:
+    container_name: pyroscope
+    image: grafana/pyroscope
+    ports:
+      - 4040:4040
+    networks:
+      - observable-universe
+
   grafana:
     image: grafana/grafana
     container_name: grafana
     restart: unless-stopped
     ports:
-      - '7777:3000'
+      - '3000:3000'
     volumes:
-      - ./grafana-ds.yaml:/etc/grafana/provisioning/datasources/grafana-ds.yaml
+      - ./grafana-ds.yml:/etc/grafana/provisioning/datasources/grafana-ds.yml
     networks:
       - observable-universe
     depends_on:
       - loki
       - tempo
-      - prometheus
+#      - prometheus
       - collector
       - mimir
 
