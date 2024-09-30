@@ -8,9 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClient;
 
-import java.util.Map;
-import java.util.Random;
-
 
 @Slf4j
 @RestController
@@ -23,8 +20,6 @@ public class Controller {
     @Setter(onMethod_ = @Autowired)
     Utils utils;
 
-    @Setter(onMethod_ = @Autowired)
-    BuggyService buggyService;
 
     @PostMapping(value = "/logs")
     public ResponseEntity<?> createLog() {
@@ -58,13 +53,9 @@ public class Controller {
         return ResponseEntity.ok(callOut);
     }
 
-    @PostMapping(value = "/bugs")
-    public ResponseEntity<?> createBugs() {
-        return ResponseEntity.ok(buggyService.create());
+    @GetMapping(value = "/fib/{n}")
+    public ResponseEntity<?> fib(@PathVariable("n") long n) {
+        return ResponseEntity.ok(utils.fib(n));
     }
 
-    @DeleteMapping(value = "/bugs")
-    public ResponseEntity<?> deleteBugs() {
-        return ResponseEntity.ok(buggyService.pop());
-    }
 }

@@ -36,8 +36,8 @@ datasources:
     jsonData:
       tracesToLogsV2:
         datasourceUid: loki
-        spanStartTimeShift: '-4h'
-        spanEndTimeShift: '4h'
+        spanStartTimeShift: '-10m'
+        spanEndTimeShift: '10m'
         filterByTraceID: false
         filterBySpanID: false
         customQuery: true
@@ -47,8 +47,8 @@ datasources:
         spanStartTimeShift: '-10m'
         spanEndTimeShift: '10m'
         queries:
-          - name: 'Duration'
-            query: 'http_server_duration_milliseconds_bucket{}'
+          - name: 'Memory Usage'
+            query: 'jvm_memory_used_bytes{job="opentelemetry.javaagent"}'
       tracesToProfiles:
         datasourceUid: 'pyroscope'
         profileTypeId: 'process_cpu:cpu:nanoseconds:cpu:nanoseconds'
