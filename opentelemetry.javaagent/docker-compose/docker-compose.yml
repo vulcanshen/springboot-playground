@@ -91,6 +91,7 @@ services:
     depends_on:
       - loki
       - tempo
+      - pyroscope
 #      - prometheus
       - collector
       - mimir

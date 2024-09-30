@@ -17,22 +17,33 @@ bootRun {
 
 	environment "PYROSCOPE_APPLICATION_NAME", "${project.name}"
 	environment "PYROSCOPE_SERVER_ADDRESS", "http://localhost:4040"
+	environment "PYROSCOPE_FORMAT", "jfr"
+	environment "PYROSCOPE_PROFILING_INTERVAL", "10ms"
+	environment "PYROSCOPE_PROFILER_EVENT", "itimer"
+	environment "PYROSCOPE_PROFILER_LOCK", "10ms"
+	environment "PYROSCOPE_PROFILER_ALLOC", "512k"
+	environment "PYROSCOPE_UPLOAD_INTERVAL", "15s"
+
+	environment "OTEL_JAVAAGENT_EXTENSIONS", "${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}ext${File.separator}otel-0.10.1.11.jar"
+	environment "OTEL_PYROSCOPE_ADD_PROFILE_URL", true
+	environment "OTEL_PYROSCOPE_ADD_PROFILE_BASELINE_URL", true
+	environment "OTEL_PYROSCOPE_START_PROFILING", true
 
 	jvmArgs(
-			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}opentelemetry-javaagent-2.8.jar",
-			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}pyroscope.jar",
+			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}opentelemetry-javaagent-v2.8.0.jar",
+			"-javaagent:${project.rootDir}${File.separator}extlibs${File.separator}javaagent${File.separator}pyroscope-v0.12.2.jar",
 			"-Dotel.service.name=${project.name}",
-//			"-Dotel.exporter.otlp.endpoint=http://localhost:4317",
-//			"-Dotel.exporter.otlp.protocol=grpc"
+			"-Dotel.exporter.otlp.endpoint=http://localhost:4317",
+			"-Dotel.exporter.otlp.protocol=grpc",
 			"-Dotel.traces.exporter=otlp",
 			"-Dotel.metrics.exporter=otlp",
 			"-Dotel.logs.exporter=otlp",
-			"-Dotel.exporter.otlp.logs.endpoint=http://localhost:4317",
-			"-Dotel.exporter.otlp.logs.protocol=grpc",
-			"-Dotel.exporter.otlp.traces.endpoint=http://localhost:4317",
-			"-Dotel.exporter.otlp.traces.protocol=grpc",
-			"-Dotel.exporter.otlp.metrics.endpoint=http://localhost:4317",
-			"-Dotel.exporter.otlp.metrics.protocol=grpc"
+//			"-Dotel.exporter.otlp.logs.endpoint=http://localhost:4317",
+//			"-Dotel.exporter.otlp.logs.protocol=grpc",
+//			"-Dotel.exporter.otlp.traces.endpoint=http://localhost:4317",
+//			"-Dotel.exporter.otlp.traces.protocol=grpc",
+//			"-Dotel.exporter.otlp.metrics.endpoint=http://localhost:4317",
+//			"-Dotel.exporter.otlp.metrics.protocol=grpc"
 	)
 }
 

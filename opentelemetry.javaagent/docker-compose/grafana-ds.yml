@@ -49,6 +49,22 @@ datasources:
         queries:
           - name: 'Duration'
             query: 'http_server_duration_milliseconds_bucket{}'
+      tracesToProfiles:
+        datasourceUid: 'pyroscope'
+        profileTypeId: 'process_cpu:cpu:nanoseconds:cpu:nanoseconds'
+#      serviceMap:
+#        datasourceUid: 'mimir'
+#      nodeGraph:
+#        enabled: true
+#      search:
+#        hide: false
+#      traceQuery:
+#        timeShiftEnabled: true
+#        spanStartTimeShift: '1h'
+#        spanEndTimeShift: '-1h'
+#      spanBar:
+#        type: 'Tag'
+#        tag: 'http.path'
 
 #  - name: prometheus
 #    type: prometheus
@@ -82,3 +98,9 @@ datasources:
       exemplarTraceIdDestinations:
         - name: trace_id
           datasourceUid: tempo
+
+  - name: pyroscope
+    type: grafana-pyroscope-datasource
+    url: http://pyroscope:4040
+    jsonData:
+      minStep: '15s'
