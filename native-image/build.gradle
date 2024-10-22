@@ -24,13 +24,13 @@ graalvmNative {
 	toolchainDetection = true
 	binaries {
 		main {
-			imageName = 'native-app'
+			imageName = 'app'
 			javaLauncher = javaToolchains.launcherFor {
 				languageVersion = JavaLanguageVersion.of(22)
 				vendor = JvmVendorSpec.GRAAL_VM
 			}
-			resources.autodetect()
-			buildArgs.add('--initialize-at-build-time=org.slf4j.helpers')
+//			resources.autodetect()
+//			buildArgs.add('--initialize-at-build-time=org.slf4j.helpers')
 		}
 	}
 }
