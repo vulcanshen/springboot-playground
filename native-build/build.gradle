@@ -8,12 +8,6 @@ plugins {
 group = 'vulcan.springboot'
 version = 'v0.0.0b'
 
-java {
-//	toolchain {
-//		languageVersion = JavaLanguageVersion.of(17)
-//	}
-}
-
 
 bootBuildImage {
 	builder = "dashaun/builder-arm:20240403"
@@ -30,8 +24,6 @@ graalvmNative {
 				languageVersion = JavaLanguageVersion.of(22)
 				vendor = JvmVendorSpec.GRAAL_VM
 			}
-//			resources.autodetect()
-//			buildArgs.add('--initialize-at-build-time=org.slf4j.helpers')
 		}
 	}
 }
