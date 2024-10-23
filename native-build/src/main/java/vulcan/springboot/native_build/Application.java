@@ -1,13 +1,13 @@
-package vulcan.springboot.native_image;
+package vulcan.springboot.native_build;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class NativeImageApplication {
+public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(NativeImageApplication.class, args);
+		SpringApplication.run(Application.class, args);
 	}
 
 }
