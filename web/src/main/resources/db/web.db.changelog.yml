@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - include:
+        file: module_service.db.changelog.yml
+        relativeToChangelogFile: true
+  - changeSet:
+      id: init
+      author: Vulcan
+      changes:
+        - sqlFile:
+            encoding: UTF-8
+            path: sql/init-table.sql
+            relativeToChangelogFile: true
+            splitStatements: false
