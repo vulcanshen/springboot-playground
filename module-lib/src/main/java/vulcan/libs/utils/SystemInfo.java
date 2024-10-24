@@ -1,4 +1,4 @@
-package dev.vulcan.springboot.utils;
+package vulcan.libs.utils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -9,7 +9,7 @@ public class SystemInfo {
 
     public static Supplier<Integer> cpuCores = () -> Runtime.getRuntime().availableProcessors();
 
-    public static Supplier<Optional<String>> macAddress = () -> {
+    public static Supplier<String> macAddress = () -> {
         try {
             InetAddress localHost = InetAddress.getLocalHost();
             NetworkInterface ni = NetworkInterface.getByInetAddress(localHost);
@@ -18,12 +18,9 @@ public class SystemInfo {
             for (int i = 0; i < hardwareAddress.length; i++) {
                 hexadecimal[i] = String.format("%02X", hardwareAddress[i]);
             }
-            String macAddress = String.join("-", hexadecimal);
-            return Optional.of(macAddress);
+            return String.join("-", hexadecimal);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-
-        return Optional.empty();
     };
 }
