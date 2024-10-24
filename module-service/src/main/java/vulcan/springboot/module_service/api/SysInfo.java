@@ -1,4 +1,4 @@
-package vulcan.springboot.module_service.sys;
+package vulcan.springboot.module_service.api;
 
 
 import org.springframework.http.ResponseEntity;
@@ -10,10 +10,10 @@ import vulcan.libs.utils.SystemInfo;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/${module-service.api-prefix:module-service}/sys/info")
-public class Information {
+@RequestMapping("/${module-service.api-prefix}/sys")
+public class SysInfo {
 
-    @GetMapping
+    @GetMapping("/info")
     public ResponseEntity<?> info() {
         var info = Map.of(
                 "mac-address", SystemInfo.macAddress.get(),
