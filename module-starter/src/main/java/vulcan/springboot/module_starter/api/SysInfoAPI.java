@@ -11,7 +11,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("${server.servlet.context-path:}/module-starter/sys")
-public class SysInfo {
+public class SysInfoAPI {
     @GetMapping("/info")
     public ResponseEntity<?> info() {
         var info = Map.of(
