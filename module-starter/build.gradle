@@ -1,11 +1,15 @@
+import org.gradle.api.publish.maven.MavenPublication
+
 plugins {
 	id 'java'
+	id 'java-library'
 	id 'org.springframework.boot' version '3.3.5'
 	id 'io.spring.dependency-management' version '1.1.6'
+	id 'maven-publish'
 }
 
 group = 'vulcan.springboot'
-version = '0.0.1b'
+version = '0.0.1a'
 
 java {
 	toolchain {
@@ -13,20 +17,32 @@ java {
 	}
 }
 
-
 repositories {
 	mavenCentral()
 	mavenLocal()
 }
 
 dependencies {
-//	implementation 'vulcan.springboot:module-service:0.0.1b'
-	implementation 'vulcan.springboot:module-starter:0.0.1a'
-	runtimeOnly 'com.h2database:h2'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'vulcan.libs:module-lib:0.0.1b'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+}
 
+publishing {
+	publications {
+		maven(MavenPublication) {
+			groupId = group
+			artifactId = project.name
+			version = version
+			from components.java
+		}
+	}
+	repositories {
+		mavenLocal()
+	}
 }
 
 tasks.named('test') {
